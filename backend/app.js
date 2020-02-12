@@ -1,7 +1,11 @@
 const Koa = require("koa");
+const cors = require("@koa/cors");
 const Router = require("koa-router");
 const logger = require("koa-logger");
 const app = new Koa();
+
+// enable CORS (y)
+app.use(cors());
 
 // log all events to the terminal
 app.use(logger());
