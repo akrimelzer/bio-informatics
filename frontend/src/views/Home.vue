@@ -1,18 +1,30 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <h1>Mapping known transcription factor binding sites</h1>
+    <v-spacer></v-spacer>
+    <DropDownMenu />
+    <v-spacer></v-spacer>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import DropDownMenu from "@/components/DropDownMenu.vue";
 
 export default {
   name: "Home",
   components: {
-    HelloWorld
+    DropDownMenu
   }
 };
 </script>
+<style scoped>
+.home {
+  height: 100vh;
+  width: 100vw;
+  background-color: coral;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+</style>
