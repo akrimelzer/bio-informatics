@@ -1,22 +1,11 @@
 <template>
   <v-container>
-    <v-menu
-      v-model="value"
-      :close-on-click="true"
-      :close-on-content-click="true"
-      :offset-y="true"
-    >
+    <v-menu v-model="value" :close-on-click="true" :close-on-content-click="true" :offset-y="true">
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on">
-          See All Collections
-        </v-btn>
+        <v-btn color="primary" dark v-on="on">See All Collections</v-btn>
       </template>
       <v-list>
-        <v-list-item
-          v-for="(collection, index) in collections"
-          :key="index"
-          @click="doSomething"
-        >
+        <v-list-item v-for="(collection, index) in collections" :key="index" @click="doSomething">
           <v-list-item-title>{{ collection.name }}</v-list-item-title>
         </v-list-item>
       </v-list>
@@ -39,7 +28,7 @@ export default {
   },
   created: function() {
     axios
-      .get("http://localhost:3000/collections/")
+      .get("http://localhost:3000/matrix/")
       .then(response => {
         this.collections = response.data.results;
         console.log(this.collection);

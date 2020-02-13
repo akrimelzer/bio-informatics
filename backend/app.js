@@ -22,7 +22,7 @@ app.use(async (ctx, next) => {
 });
 
 // instantiate our new Router
-const router = new Router();
+const jasparRouter = new Router();
 const dogRouter = new Router({
   prefix: "/dogs"
 });
@@ -31,19 +31,19 @@ const collectionsRouter = new Router({
 });
 
 // require our external routes and pass in the router
-require("./routes/basic")({ router });
 require("./routes/dogs.js")({ dogRouter });
 require("./routes/collections.js")({ collectionsRouter });
+require("./routes/jaspar.js")({ jasparRouter });
 
 // tells the router to use all the routes that are on the object
-app.use(router.routes());
-app.use(router.allowedMethods());
-
 app.use(dogRouter.routes());
 app.use(dogRouter.allowedMethods());
 
 app.use(collectionsRouter.routes());
 app.use(collectionsRouter.allowedMethods());
+
+app.use(jasparRouter.routes());
+app.use(jasparRouter.allowedMethods());
 
 // tells the server to listen to events on the 3000 port
 const server = app.listen(3000);
