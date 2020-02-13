@@ -6,7 +6,7 @@
       </template>
       <v-list>
         <v-list-item v-for="(collection, index) in collections" :key="index" @click="doSomething">
-          <v-list-item-title>{{ collection.name }}</v-list-item-title>
+          <Popup v-bind:matrix="collection" />
         </v-list-item>
       </v-list>
     </v-menu>
@@ -14,9 +14,13 @@
 </template>
 
 <script>
+import Popup from "./Popup";
 import axios from "axios";
 export default {
   name: "DropDownMenu",
+  components: {
+    Popup
+  },
   data: () => ({
     collections: "",
     value: false
