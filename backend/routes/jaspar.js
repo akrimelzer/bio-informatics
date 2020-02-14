@@ -40,9 +40,10 @@ module.exports = ({ jasparRouter }) => {
   });
 
   // return all matrix profiles
+  // adding ?page_size=3150 to set number of results to page
   jasparRouter.get("/matrix", async (ctx, next) => {
     await request
-      .get(baseURL + "/matrix/")
+      .get(baseURL + "/matrix/?page_size=3150")
       .then(res => {
         ctx.body = res.body;
       })

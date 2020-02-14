@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <h1>Mapping known transcription factor binding sites</h1>
+    <v-checkbox v-model="selected" label="CORE" value="CORE"></v-checkbox>
     <v-card class="mx-auto search-bar" dark color="deep-orange lighten-1" width="30%">
       <v-text-field v-model="search" mx-10 label="Main input" hide-details="auto"></v-text-field>
     </v-card>
@@ -24,7 +25,8 @@ export default {
   data: () => ({
     matrixes: "",
     value: false,
-    search: ""
+    search: "",
+    selected: ""
   }),
   methods: {
     doSomething: function() {
@@ -58,8 +60,8 @@ export default {
 </script>
 <style scoped>
 .home {
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   background-color: coral;
   display: flex;
   flex-direction: column;
