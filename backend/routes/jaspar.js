@@ -15,6 +15,7 @@ module.exports = ({ jasparRouter }) => {
         console.log(err);
       });
   });
+
   // specific Collection on name
   jasparRouter.get("/collections/:collection", async (ctx, next) => {
     await request
