@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <h1>Enter DNA please</h1>
+    <h3>{{ matrix }}</h3>
     <div class="content">
       <v-col class="premade-dna-area">
         <h3>CHOSE FORM THESE</h3>
@@ -16,6 +17,7 @@
       </v-col>
       <v-col class="dna-input-area">
         <v-textarea
+          v-model="DNAInput"
           solo
           name="input-7-4"
           label="Enter DNA sequence"
@@ -27,7 +29,7 @@
     </div>
     <v-col id="buttons">
       <v-btn @click="goBack">GO BACK</v-btn>
-      <v-btn>CONTINUE</v-btn>
+      <v-btn @click="goToResults">CONTINUE</v-btn>
     </v-col>
   </div>
 </template>
@@ -42,7 +44,8 @@ export default {
     return {
       human_genome: chromosome_1,
       streptococcus_genome: streptococcus_r6,
-      radios: "clear"
+      radios: "clear",
+      DNAInput: ""
     };
   },
   components: {},
@@ -60,6 +63,12 @@ export default {
   methods: {
     goBack: function() {
       this.$router.go(-1);
+    },
+    goToResults: function() {
+      this.$router.push({
+        name: "Results",
+        params: { dnaSequence: this.DNAInput }
+      });
     }
   }
 };
@@ -69,7 +78,18 @@ export default {
 .home {
   height: 100%;
   width: 100%;
-  background-color: coral;
+  background: #11998e; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #38ef7d,
+    #11998e
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #38ef7d,
+    #11998e
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   display: flex;
   flex-direction: column;
   text-align: center;

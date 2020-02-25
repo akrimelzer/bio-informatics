@@ -61,7 +61,13 @@ export default {
 .home {
   height: 100%;
   width: 100%;
-  background-color: coral;
+  background: #11998e; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #38ef7d,
+    #11998e
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #38ef7d, #11998e);
   display: flex;
   flex-direction: column;
   text-align: center;
