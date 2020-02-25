@@ -71,7 +71,7 @@ module.exports = ({ jasparRouter }) => {
       .get(baseURL + "/matrix/" + ctx.params.matrix_id)
       .then(res => {
         PPM = convToPPM(res.body.pfm);
-        ctx.body = PPM;
+        ctx.body = "Something went wrong. Sorry about that.";
         splitted_chromosome = [];
         let string_length = PPM.A.length - 1;
         let test_chromosomes = chromosome_1;
@@ -79,23 +79,29 @@ module.exports = ({ jasparRouter }) => {
           test_chromosomes,
           string_length
         );
-        // filter out undefined
-        // chromosome_slices = chromosome_slices.filter(function(x) {
-        //   return x !== undefined;
-        // });
+
         let probabilities = getProbabilityKeyValuePair(chromosome_slices, PPM);
 
         // Create items array
         var items = Object.keys(probabilities).map(function(key) {
-          return [key, probabilities[key]];
+          return [key, probabilities[key].value, probabilities[key].position];
         });
+
         // Sort the array based on the second element
         items.sort(function(first, second) {
           return second[1] - first[1];
         });
 
+        // make a return dictionary of 100 highest probabilities with transcription factor site
+        let returnDict = {};
+        for (let i = 0; i < 100; i++) {
+          returnDict[items[i][0]] = {
+            position: items[i][2],
+            value: items[i][1]
+          };
+        }
         // return top 100 items
-        ctx.body = items.slice(0, 100);
+        ctx.body = returnDict;
         console.log("returned filtered probabilities");
       })
       .catch(err => {
@@ -145,10 +151,10 @@ module.exports = ({ jasparRouter }) => {
     probabilities = [];
     for (let i = 0; i < splitted_chromosome.length; i++) {
       let current_chromosome = splitted_chromosome[i];
-      probabilities[current_chromosome] = getProbability(
-        PPM,
-        current_chromosome
-      );
+      probabilities[current_chromosome] = {
+        position: i,
+        value: getProbability(PPM, current_chromosome)
+      };
     }
     return probabilities;
   };
