@@ -65,6 +65,44 @@ module.exports = ({ jasparRouter }) => {
       });
   });
 
+  // return PPM of a specific matrix
+  jasparRouter.get("/matrix/:matrix_id/PPM", async (ctx, next) => {
+    await request
+      .get(baseURL + "/matrix/" + ctx.params.matrix_id)
+      .then(res => {
+        PPM = convToPPM(res.body.pfm);
+        ctx.body = PPM;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+
+  const convToPPM = matrix => {
+    // initialize PPM
+    let PPM = {
+      A: [],
+      C: [],
+      T: [],
+      G: []
+    };
+    // PFM
+    A = matrix.A;
+    C = matrix.C;
+    T = matrix.T;
+    G = matrix.G;
+    // iterate through all values and normalize
+    for (let i = 0; i < A.length; i++) {
+      let total_amount = A[i] + C[i] + T[i] + G[i];
+      // Pseudocount Xi +1 / N + 1 * 0.25
+      PPM["A"].push((A[i] + 1) / (total_amount + 0.25));
+      PPM["C"].push((C[i] + 1) / (total_amount + 0.25));
+      PPM["T"].push((T[i] + 1) / (total_amount + 0.25));
+      PPM["G"].push((G[i] + 1) / (total_amount + 0.25));
+    }
+    return PPM;
+  };
+
   // return all species
   jasparRouter.get("/species", async (ctx, next) => {
     await request
