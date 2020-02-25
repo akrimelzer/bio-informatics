@@ -26,7 +26,7 @@
       </v-col>
     </div>
     <v-col id="buttons">
-      <v-btn>GO BACK</v-btn>
+      <v-btn @click="goBack">GO BACK</v-btn>
       <v-btn>CONTINUE</v-btn>
     </v-col>
   </div>
@@ -55,6 +55,10 @@ export default {
       } else {
         return "";
       }
+
+  methods: {
+    goBack: function() {
+      this.$router.go(-1);
     }
   }
 };

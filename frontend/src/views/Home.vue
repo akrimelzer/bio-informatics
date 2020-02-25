@@ -16,7 +16,6 @@
 // @ is an alias to /src
 import axios from "axios";
 import Popup from "@/components/Popup.vue";
-
 export default {
   name: "Home",
   components: {
