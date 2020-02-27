@@ -1,24 +1,89 @@
 <template>
   <div class="results">
-    <h1>Results</h1>
+    <div>
+      <h1>Results</h1>
+    </div>
+    <div class="result-container">
+      <div class="box protein-img"></div>
+      <div class="box protein-information">
+        <span>Protein blablaji djidj wiji jfie jfej fiejf iejfi ejf eijf eijf ei jhwqu qw</span>
+      </div>
+      <div class="box information"></div>
+
+      <v-btn class="button">GO BACK</v-btn>
+    </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["matrix"]
+};
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web:400,600,700&display=swap");
+h1 {
+  font-size: 3em;
+}
+.button {
+  margin: 0;
+  padding: 0;
+}
+
+.box {
+  border-radius: 15px;
+}
+.protein-img {
+  grid-column: 1;
+  grid-row: 1;
+
+  background-color: red;
+}
+.protein-information {
+  grid-column: 1;
+  grid-row: 2/4;
+  background-color: blue;
+}
+.information {
+  grid-column: 2/3;
+  grid-row: 1/4;
+  background-color: black;
+}
+.result-container {
+  display: grid;
+  grid-gap: 10px;
+  padding-top: 5vh;
+  justify-content: center;
+  grid-template-columns: 30% 65%;
+  flex-direction: row;
+  width: 80vw;
+  height: 70vh;
+  border-radius: 15px;
+
+  background-color: darkorange;
+}
 .results {
-  height: 100%;
-  width: 100%;
+  font-family: "Titillium Web";
   display: flex;
-  background: #11998e; /* fallback for old browsers */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  align-content: center;
+  display: flex;
+  color: white;
+  background: #00d2ff; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #38ef7d,
-    #11998e
+    #3a7bd5,
+    #00d2ff
   ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #38ef7d, #11998e);
+  background: linear-gradient(
+    to right,
+    #3a7bd5,
+    #00d2ff
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 </style>

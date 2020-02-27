@@ -9,9 +9,19 @@
           <p v-if="radios !== 'clear'">Currently selected: {{ radios }}</p>
           <p v-else>Choose from our preselected DNAs</p>
           <v-radio-group v-model="radios" :mandatory="false">
-            <v-radio label="Clear" value="clear"></v-radio>
-            <v-radio label="Human Genome" value="Human DNA"></v-radio>
-            <v-radio label="Streptococcus Genome " value="Streptococcus DNA"></v-radio>
+            <v-radio label="Clear" color="deep-orange lighten-1" value="clear" class="white--text"></v-radio>
+            <v-radio
+              label="Human Genome"
+              color="deep-orange lighten-1"
+              value="Human DNA"
+              class="white--text"
+            ></v-radio>
+            <v-radio
+              label="Streptococcus Genome"
+              color="deep-orange lighten-1"
+              value="Streptococcus DNA"
+              class="white--text"
+            ></v-radio>
           </v-radio-group>
         </v-container>
       </v-col>
@@ -75,21 +85,26 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web:400,600,700&display=swap");
+.white--text /deep/ label {
+  color: white;
+}
 .home {
+  font-family: "Titillium Web";
   height: 100%;
   width: 100%;
-  background: #11998e; /* fallback for old browsers */
+  color: white;
+  background: #00d2ff; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #38ef7d,
-    #11998e
+    #3a7bd5,
+    #00d2ff
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #38ef7d,
-    #11998e
+    #3a7bd5,
+    #00d2ff
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
   display: flex;
   flex-direction: column;
   text-align: center;
