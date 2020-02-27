@@ -13,6 +13,10 @@
             <v-radio label="Streptococcus Genome " value="Streptococcus DNA"></v-radio>
           </v-radio-group>
         </v-container>
+        <div>
+          <h2>Current Transcription Factor:</h2>
+          <h2>{{this.$route.params.name}}</h2>
+        </div>
       </v-col>
       <v-col class="dna-input-area">
         <v-textarea
@@ -27,12 +31,13 @@
     </div>
     <v-col id="buttons">
       <v-btn @click="goBack">GO BACK</v-btn>
-      <v-btn>CONTINUE</v-btn>
+      <v-btn @click="continueToResults">CONTINUE</v-btn>
     </v-col>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import * as DNAs from "../../var";
 let chromosome_1 = DNAs.default[0];
 let streptococcus_r6 = DNAs.default[1];
@@ -60,6 +65,28 @@ export default {
   methods: {
     goBack: function() {
       this.$router.go(-1);
+    },
+    continueToResults: async function() {
+      await axios
+        .post(
+          "http://localhost:3000/matrix/" +
+            this.$route.params.matrix_id +
+            "/PPM/5",
+          {
+            dna: this.DNASequence
+          }
+        )
+        .then(function(response) {
+          let topArray = response.data;
+          let returnArray;
+          for (var key in topArray) {
+            console.log(key);
+            console.log(topArray[key]);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 };

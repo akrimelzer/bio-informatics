@@ -65,18 +65,17 @@ module.exports = ({ jasparRouter }) => {
       });
   });
 
-  // return PPM of a specific matrix
-  jasparRouter.get("/matrix/:matrix_id/PPM/:nums?", async (ctx, next) => {
+  jasparRouter.post("/matrix/:matrix_id/PPM/:nums?", async (ctx, next) => {
+    let DNASequence = ctx.body.dna;
     await request
       .get(baseURL + "/matrix/" + ctx.params.matrix_id)
       .then(res => {
         let amount_returned = 100;
-        console.log(ctx.params.nums);
         PPM = convToPPM(res.body.pfm);
         ctx.body = "Something went wrong. Sorry about that.";
         splitted_chromosome = [];
         let string_length = PPM.A.length - 1;
-        let test_chromosomes = chromosome_1;
+        let test_chromosomes = DNASequence.toString();
         let chromosome_slices = getChromosomeSlices(
           test_chromosomes,
           string_length
@@ -113,6 +112,61 @@ module.exports = ({ jasparRouter }) => {
         console.log(err);
       });
   });
+
+  // return PPM of a specific matrix
+  const get_PPM = jasparRouter.get(
+    "/matrix/:matrix_id/PPM/:nums?",
+    async (ctx, next) => {
+      console.log("Accessing Get request");
+      await request
+        .get(baseURL + "/matrix/" + ctx.params.matrix_id)
+        .then(res => {
+          let amount_returned = 100;
+          PPM = convToPPM(res.body.pfm);
+          ctx.body = "Something went wrong. Sorry about that.";
+          splitted_chromosome = [];
+          let string_length = PPM.A.length - 1;
+          let test_chromosomes = chromosome_1;
+          let chromosome_slices = getChromosomeSlices(
+            test_chromosomes,
+            string_length
+          );
+
+          let probabilities = getProbabilityKeyValuePair(
+            chromosome_slices,
+            PPM
+          );
+          console.log(chromosome_slices.length);
+          // Create items array
+          var items = Object.keys(probabilities).map(function(key) {
+            return [key, probabilities[key].value, probabilities[key].position];
+          });
+
+          // Sort the array based on the second element
+          items.sort(function(first, second) {
+            return second[1] - first[1];
+          });
+
+          // make a return dictionary of 100 highest probabilities with transcription factor site
+          if (ctx.params.nums) {
+            amount_returned = ctx.params.nums;
+          }
+          let returnDict = {};
+          for (let i = 0; i < amount_returned; i++) {
+            returnDict[items[i][0]] = {
+              position: items[i][2],
+              value: items[i][1]
+            };
+          }
+          // return top 100 items
+          ctx.body = returnDict;
+          console.log("returned filtered probabilities");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  );
 
   const convToPPM = matrix => {
     // initialize PPM

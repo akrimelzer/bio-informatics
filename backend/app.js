@@ -2,6 +2,7 @@ const Koa = require("koa");
 const cors = require("@koa/cors");
 const Router = require("koa-router");
 const logger = require("koa-logger");
+const bodyParser = require("koa-bodyparser");
 const app = new Koa();
 
 // enable CORS (y)
@@ -10,8 +11,12 @@ app.use(cors());
 // log all events to the terminal
 app.use(logger());
 
+app.use(bodyParser());
+
 // error handling
 app.use(async (ctx, next) => {
+  ctx.body = ctx.request.body;
+
   try {
     await next();
   } catch (err) {
