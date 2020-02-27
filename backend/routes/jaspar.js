@@ -66,10 +66,12 @@ module.exports = ({ jasparRouter }) => {
   });
 
   // return PPM of a specific matrix
-  jasparRouter.get("/matrix/:matrix_id/PPM", async (ctx, next) => {
+  jasparRouter.get("/matrix/:matrix_id/PPM/:nums?", async (ctx, next) => {
     await request
       .get(baseURL + "/matrix/" + ctx.params.matrix_id)
       .then(res => {
+        let amount_returned = 100;
+        console.log(ctx.params.nums);
         PPM = convToPPM(res.body.pfm);
         ctx.body = "Something went wrong. Sorry about that.";
         splitted_chromosome = [];
@@ -81,7 +83,7 @@ module.exports = ({ jasparRouter }) => {
         );
 
         let probabilities = getProbabilityKeyValuePair(chromosome_slices, PPM);
-
+        console.log(chromosome_slices.length);
         // Create items array
         var items = Object.keys(probabilities).map(function(key) {
           return [key, probabilities[key].value, probabilities[key].position];
@@ -93,8 +95,11 @@ module.exports = ({ jasparRouter }) => {
         });
 
         // make a return dictionary of 100 highest probabilities with transcription factor site
+        if (ctx.params.nums) {
+          amount_returned = ctx.params.nums;
+        }
         let returnDict = {};
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < amount_returned; i++) {
           returnDict[items[i][0]] = {
             position: items[i][2],
             value: items[i][1]
