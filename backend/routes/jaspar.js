@@ -70,7 +70,6 @@ module.exports = ({ jasparRouter }) => {
     await request
       .get(baseURL + "/matrix/" + ctx.params.matrix_id)
       .then(res => {
-        let amount_returned = 100;
         PPM = convToPPM(res.body.pfm);
         ctx.body = "Something went wrong. Sorry about that.";
         splitted_chromosome = [];
@@ -80,6 +79,7 @@ module.exports = ({ jasparRouter }) => {
           test_chromosomes,
           string_length
         );
+        let amount_returned = chromosome_slices.length;
 
         let probabilities = getProbabilityKeyValuePair(chromosome_slices, PPM);
         console.log(chromosome_slices.length);

@@ -71,14 +71,14 @@ export default {
         .post(
           "http://localhost:3000/matrix/" +
             this.$route.params.matrix_id +
-            "/PPM/5",
+            "/PPM",
           {
             dna: this.DNASequence
           }
         )
         .then(function(response) {
           let topArray = response.data;
-          let returnArray;
+          //let returnArray;
           for (var key in topArray) {
             console.log(key);
             console.log(topArray[key]);
