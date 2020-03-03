@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <h1>Enter DNA please</h1>
-    <h3>{{ matrix }}</h3>
     <div class="content">
       <v-col class="premade-dna-area">
         <h3>CHOSE FORM THESE</h3>
@@ -9,31 +8,39 @@
           <p v-if="radios !== 'clear'">Currently selected: {{ radios }}</p>
           <p v-else>Choose from our preselected DNAs</p>
           <v-radio-group v-model="radios" :mandatory="false">
-            <v-radio label="Clear" color="deep-orange lighten-1" value="clear" class="white--text" @click="setDNAValue(0)"></v-radio>
-            <v-radio
-              label="Human Genome"
-              color="deep-orange lighten-1"
-              value="Human DNA"
-              class="white--text"
-              @click="setDNAValue(1)"
-            ></v-radio>
-            <v-radio
-              label="Streptococcus Genome"
-              color="deep-orange lighten-1"
-              value="Streptococcus DNA"
-              class="white--text"
-              @click="setDNAValue(2)"
-            ></v-radio>
+            <div @click="setDNAValue(0)">
+              <v-radio
+                label="Clear"
+                color="deep-orange lighten-1"
+                value="clear"
+                class="white--text"
+              ></v-radio>
+            </div>
+            <div @click="setDNAValue(1)">
+              <v-radio
+                label="Human Genome"
+                color="deep-orange lighten-1"
+                value="Human DNA"
+                class="white--text"
+              ></v-radio>
+            </div>
+            <div @click="setDNAValue(2)">
+              <v-radio
+                label="Streptococcus Genome"
+                color="deep-orange lighten-1"
+                value="Streptococcus DNA"
+                class="white--text"
+              ></v-radio>
+            </div>
           </v-radio-group>
         </v-container>
         <div>
           <h2>Current Transcription Factor:</h2>
-          <h2>{{this.$route.params.name}}</h2>
+          <h2>{{ this.$route.params.name }}</h2>
         </div>
       </v-col>
       <v-col class="dna-input-area">
         <v-textarea
-          v-model="DNAInput"
           solo
           name="input-7-4"
           label="Enter DNA sequence"
@@ -41,7 +48,8 @@
           flat
           v-model="DNA"
           :value="DNA"
-        >{{ DNA }}</v-textarea>
+          >{{ DNA }}</v-textarea
+        >
       </v-col>
     </div>
     <v-col id="buttons">
@@ -60,8 +68,6 @@ export default {
   name: "Matrix",
   data() {
     return {
-      human_genome: chromosome_1,
-      streptococcus_genome: streptococcus_r6,
       radios: "clear",
       DNA: ""
     };
@@ -70,10 +76,10 @@ export default {
     setDNAValue: function(value) {
       if (value === 1) {
         this.radios = "Human DNA";
-        this.DNA = this.human_genome;
+        this.DNA = chromosome_1;
       } else if (value === 2) {
         this.radios = "Streptococcus DNA";
-        this.DNA = this.streptococcus_genome;
+        this.DNA = streptococcus_r6;
       } else {
         this.radios = "clear";
         this.DNA = "";
