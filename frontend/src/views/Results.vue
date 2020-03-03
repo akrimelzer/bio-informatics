@@ -4,18 +4,34 @@
       <h1>Results</h1>
     </div>
     <div class="result-container">
-      <div class="box protein-img"></div>
-      <div class="box protein-information">
-        <span
-          >Protein blablaji djidj wiji jfie jfej fiejf iejfi ejf eijf eijf ei
-          jhwqu qw</span
-        >
+      <div class="box protein-img">
+        <v-card class="mx-auto" max-width="400" tile>
+          <v-list :disabled="true">
+            <v-subheader>TOP 5</v-subheader>
+            <v-list-item-group v-model="item" color="primary">
+              <v-list-item
+                v-for="(item, i) in this.$route.params.data.top_x"
+                :key="i"
+                :inactive="inactive"
+              >
+                <v-list-item-content>
+                  <v-list-item-title v-html="i"></v-list-item-title>
+                  <v-list-item-subtitle>
+                    position: {{ item.position }}</v-list-item-subtitle
+                  >
+                  <span> <b>P:</b> {{ item.value.toFixed(6) }} </span>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-card>
       </div>
       <div class="box information">
         <div class="chart">
           <Chart :chartdata="chartData" />
         </div>
       </div>
+
 
       <v-btn class="button">GO BACK</v-btn>
     </div>
