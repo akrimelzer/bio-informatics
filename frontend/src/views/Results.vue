@@ -19,18 +19,15 @@
 </template>
 
 <script>
-import { Line } from 'vue-chartjs';
-import Chart from '../components/Chart.vue';
-
 export default {
   components: {},
 
-  props: ['matrix']
+  props: ["matrix"]
 };
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Titillium+Web:400,600,700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web:400,600,700&display=swap");
 h1 {
   font-size: 3em;
 }
@@ -76,7 +73,7 @@ h1 {
   background-color: darkorange;
 }
 .results {
-  font-family: 'Titillium Web';
+  font-family: "Titillium Web";
   display: flex;
   flex-direction: column;
   justify-content: center;
