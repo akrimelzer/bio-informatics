@@ -88,6 +88,14 @@ export default {
     goBack: function() {
       this.$router.go(-1);
     },
+    goNext: function(data) {
+      this.$router.push({
+        name: "Results",
+        params: {
+          data: data
+        }
+      });
+    },
     continueToResults: async function() {
       await axios
         .post(
@@ -98,16 +106,24 @@ export default {
             dna: this.DNA
           }
         )
-        .then(function(response) {
-          let topArray = response.data;
-          //let returnArray;
-          if (topArray === "Something went wrong. Sorry about that.") {
-            console.log(topArray);
-          } else {
-            console.log(topArray);
-          }
-          // SEND TO RESULTS PAGE WHEN FINISHED
-        })
+        .then(
+          function(response) {
+            let topArray = response.data;
+            //let returnArray;
+            if (topArray === "Something went wrong. Sorry about that.") {
+              console.log(topArray);
+            } else {
+              this.$router.push({
+                name: "Results",
+                params: {
+                  data: topArray
+                }
+              });
+              console.log(this.$router.params);
+            }
+            // SEND TO RESULTS PAGE WHEN FINISHED
+          }.bind(this)
+        )
         .catch(function(error) {
           console.log(error);
         });
