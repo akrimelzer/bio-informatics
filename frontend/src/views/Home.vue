@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>Mapping known transcription factor binding sites</h1>
-    <v-checkbox v-model="selected" label="CORE" value="CORE"></v-checkbox>
+    <v-checkbox v-model="selected" label="CORE" color="#0000" value="CORE"></v-checkbox>
     <v-card class="mx-auto search-bar" dark color="deep-orange lighten-1" width="30%">
       <v-text-field v-model="search" mx-10 label="Main input" hide-details="auto"></v-text-field>
     </v-card>
@@ -58,13 +58,29 @@ export default {
 };
 </script>
 <style scoped>
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web:400,600,700&display=swap");
+h1 {
+  font-size: 2em;
+}
 .home {
+  font-family: "Titillium Web";
   height: 100%;
   width: 100%;
-  background-color: coral;
   display: flex;
   flex-direction: column;
   text-align: center;
+  color: white;
+  background: #00d2ff; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #3a7bd5,
+    #00d2ff
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #3a7bd5,
+    #00d2ff
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .matrixes {
