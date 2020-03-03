@@ -8,9 +8,13 @@
           <p v-if="radios !== 'clear'">Currently selected: {{ radios }}</p>
           <p v-else>Choose from our preselected DNAs</p>
           <v-radio-group v-model="radios" :mandatory="false">
-            <v-radio label="Clear" value="clear"></v-radio>
-            <v-radio label="Human Genome" value="Human DNA"></v-radio>
-            <v-radio label="Streptococcus Genome " value="Streptococcus DNA"></v-radio>
+            <v-radio label="Clear" value="clear" @click="setDNAValue(0)"></v-radio>
+            <v-radio label="Human Genome" value="Human DNA" @click="setDNAValue(1)"></v-radio>
+            <v-radio
+              label="Streptococcus Genome "
+              value="Streptococcus DNA"
+              @click="setDNAValue(2)"
+            ></v-radio>
           </v-radio-group>
         </v-container>
         <div>
@@ -25,8 +29,9 @@
           label="Enter DNA sequence"
           autofocus
           flat
-          :value="DNASequence"
-        >{{ human_genome }}</v-textarea>
+          v-model="DNA"
+          :value="DNA"
+        >{{ DNA }}</v-textarea>
       </v-col>
     </div>
     <v-col id="buttons">
@@ -47,22 +52,23 @@ export default {
     return {
       human_genome: chromosome_1,
       streptococcus_genome: streptococcus_r6,
-      radios: "clear"
+      radios: "clear",
+      DNA: ""
     };
   },
-  components: {},
-  computed: {
-    DNASequence: function() {
-      if (this.radios === "Human DNA") {
-        return this.human_genome;
-      } else if (this.radios === "Streptococcus DNA") {
-        return this.streptococcus_genome;
-      } else {
-        return "";
-      }
-    }
-  },
   methods: {
+    setDNAValue: function(value) {
+      if (value === 1) {
+        this.radios = "Human DNA";
+        this.DNA = this.human_genome;
+      } else if (value === 2) {
+        this.radios = "Streptococcus DNA";
+        this.DNA = this.streptococcus_genome;
+      } else {
+        this.radios = "clear";
+        this.DNA = "";
+      }
+    },
     goBack: function() {
       this.$router.go(-1);
     },
@@ -71,18 +77,20 @@ export default {
         .post(
           "http://localhost:3000/matrix/" +
             this.$route.params.matrix_id +
-            "/PPM",
+            "/PPM/5",
           {
-            dna: this.DNASequence
+            dna: this.DNA
           }
         )
         .then(function(response) {
           let topArray = response.data;
           //let returnArray;
-          for (var key in topArray) {
-            console.log(key);
-            console.log(topArray[key]);
+          if (topArray === "Something went wrong. Sorry about that.") {
+            console.log(topArray);
+          } else {
+            console.log(topArray);
           }
+          // SEND TO RESULTS PAGE WHEN FINISHED
         })
         .catch(function(error) {
           console.log(error);
