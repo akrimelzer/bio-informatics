@@ -9,21 +9,27 @@
           <p v-if="radios !== 'clear'">Currently selected: {{ radios }}</p>
           <p v-else>Choose from our preselected DNAs</p>
           <v-radio-group v-model="radios" :mandatory="false">
-            <v-radio label="Clear" color="deep-orange lighten-1" value="clear" class="white--text"></v-radio>
+            <v-radio label="Clear" color="deep-orange lighten-1" value="clear" class="white--text" @click="setDNAValue(0)"></v-radio>
             <v-radio
               label="Human Genome"
               color="deep-orange lighten-1"
               value="Human DNA"
               class="white--text"
+              @click="setDNAValue(1)"
             ></v-radio>
             <v-radio
               label="Streptococcus Genome"
               color="deep-orange lighten-1"
               value="Streptococcus DNA"
               class="white--text"
+              @click="setDNAValue(2)"
             ></v-radio>
           </v-radio-group>
         </v-container>
+        <div>
+          <h2>Current Transcription Factor:</h2>
+          <h2>{{this.$route.params.name}}</h2>
+        </div>
       </v-col>
       <v-col class="dna-input-area">
         <v-textarea
@@ -33,18 +39,20 @@
           label="Enter DNA sequence"
           autofocus
           flat
-          :value="DNASequence"
-        >{{ human_genome }}</v-textarea>
+          v-model="DNA"
+          :value="DNA"
+        >{{ DNA }}</v-textarea>
       </v-col>
     </div>
     <v-col id="buttons">
       <v-btn @click="goBack">GO BACK</v-btn>
-      <v-btn @click="goToResults">CONTINUE</v-btn>
+      <v-btn @click="continueToResults">CONTINUE</v-btn>
     </v-col>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import * as DNAs from "../../var";
 let chromosome_1 = DNAs.default[0];
 let streptococcus_r6 = DNAs.default[1];
@@ -55,30 +63,48 @@ export default {
       human_genome: chromosome_1,
       streptococcus_genome: streptococcus_r6,
       radios: "clear",
-      DNAInput: ""
+      DNA: ""
     };
   },
-  components: {},
-  computed: {
-    DNASequence: function() {
-      if (this.radios === "Human DNA") {
-        return this.human_genome;
-      } else if (this.radios === "Streptococcus DNA") {
-        return this.streptococcus_genome;
-      } else {
-        return "";
-      }
-    }
-  },
   methods: {
+    setDNAValue: function(value) {
+      if (value === 1) {
+        this.radios = "Human DNA";
+        this.DNA = this.human_genome;
+      } else if (value === 2) {
+        this.radios = "Streptococcus DNA";
+        this.DNA = this.streptococcus_genome;
+      } else {
+        this.radios = "clear";
+        this.DNA = "";
+      }
+    },
     goBack: function() {
       this.$router.go(-1);
     },
-    goToResults: function() {
-      this.$router.push({
-        name: "Results",
-        params: { dnaSequence: this.DNAInput }
-      });
+    continueToResults: async function() {
+      await axios
+        .post(
+          "http://localhost:3000/matrix/" +
+            this.$route.params.matrix_id +
+            "/PPM/5",
+          {
+            dna: this.DNA
+          }
+        )
+        .then(function(response) {
+          let topArray = response.data;
+          //let returnArray;
+          if (topArray === "Something went wrong. Sorry about that.") {
+            console.log(topArray);
+          } else {
+            console.log(topArray);
+          }
+          // SEND TO RESULTS PAGE WHEN FINISHED
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 };
