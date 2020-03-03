@@ -42,9 +42,14 @@ export default {
     goToNext: function() {
       this.dialog = false;
       console.log(this.$router);
+      console.log(this.matrix);
       this.$router.push({
         name: "Matrix",
-        params: { matrix: this.matrix, name: this.matrix.name }
+        params: {
+          matrix: this.matrix,
+          name: this.matrix.name,
+          matrix_id: this.matrix.matrix_id
+        }
       });
     }
   }
