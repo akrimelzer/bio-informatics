@@ -1,8 +1,11 @@
 const Koa = require('koa');
+const serve = require('koa-static');
 const cors = require('@koa/cors');
 const Router = require('koa-router');
 const logger = require('koa-logger');
 const bodyParser = require('koa-bodyparser');
+const PORT = process.env.PORT || 8080;
+
 const app = new Koa();
 
 // enable CORS (y)
@@ -50,6 +53,14 @@ app.use(collectionsRouter.allowedMethods());
 app.use(jasparRouter.routes());
 app.use(jasparRouter.allowedMethods());
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(serve(__dirname + 'client/build/'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html')); //  relative path
+  });
+}
+
 // tells the server to listen to events on the 3000 port
-const server = app.listen(8080);
+const server = app.listen(PORT);
 module.exports = server;
