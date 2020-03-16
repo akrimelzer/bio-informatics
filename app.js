@@ -1,4 +1,5 @@
 const Koa = require('koa');
+const path = require('path');
 const serve = require('koa-static');
 const cors = require('@koa/cors');
 const Router = require('koa-router');
@@ -15,19 +16,6 @@ app.use(cors());
 app.use(logger());
 
 app.use(bodyParser());
-
-// error handling
-app.use(async (ctx, next) => {
-  ctx.body = ctx.request.body;
-
-  try {
-    await next();
-  } catch (err) {
-    ctx.status = err.status || 500;
-    ctx.body = err.message;
-    ctx.app.emit('error', err, ctx);
-  }
-});
 
 // instantiate our new Router
 const jasparRouter = new Router();
@@ -53,10 +41,11 @@ app.use(collectionsRouter.allowedMethods());
 app.use(jasparRouter.routes());
 app.use(jasparRouter.allowedMethods());
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(require('koa-static')('./build'));
-}
-
+app.use(
+  serve(path.resolve(__dirname, 'client/build'), {
+    maxage: 1000 * 60 * 60 * 24 * 30 // a month
+  })
+);
 // tells the server to listen to events on the 3000 port
-const server = app.listen(PORT);
-module.exports = server;
+app.listen(PORT);
+module.exports = app;
