@@ -41,11 +41,10 @@ app.use(collectionsRouter.allowedMethods());
 app.use(jasparRouter.routes());
 app.use(jasparRouter.allowedMethods());
 
-app.use(
-  serve(path.resolve(__dirname, 'client/build'), {
-    maxage: 1000 * 60 * 60 * 24 * 30 // a month
-  })
-);
+if (process.env.NODE_ENV === 'production') {
+  app.use(serve(path.resolve(__dirname, 'client/build')));
+}
+
 // tells the server to listen to events on the 3000 port
 app.listen(PORT);
 module.exports = app;
