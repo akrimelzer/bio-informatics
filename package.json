@@ -6,6 +6,7 @@
   "scripts": {
     "client-install": "npm install --prefix client",
     "client": "npm start --prefix client",
+    "install-all": "npm install && npm run client-install",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon app.js",
     "test": "jest --watchAll"
