@@ -45,6 +45,6 @@ if (process.env.NODE_ENV === 'production') {
   app.use(serve(path.resolve(__dirname, 'client/build')));
 }
 
-// tells the server to listen to events on the 3000 port
+// tells the server to listen to events on the 8080 port
 app.listen(PORT);
 module.exports = app;
