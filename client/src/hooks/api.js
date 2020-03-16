@@ -29,7 +29,22 @@ export const useApi = () => {
     return getApiData(path);
   };
 
+  const getFilteredMatrixes = async text => {
+    console.log("Searching for", text);
+    const matrixes = await getMatrixes();
+    if (text === "") {
+      return matrixes.results;
+    } else {
+      const result = matrixes.results.filter(element =>
+        element.name.toLowerCase().startsWith(text.toLowerCase())
+      );
+      console.log("result", result);
+      return result.slice(0, 50);
+    }
+  };
+
   return {
-    getMatrixes
+    getMatrixes,
+    getFilteredMatrixes
   };
 };
