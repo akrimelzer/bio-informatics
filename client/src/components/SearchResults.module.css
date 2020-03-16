@@ -1,4 +1,3 @@
-.container {
-  border: solid;
-  border-color: blue;
+.element:hover {
+  cursor: pointer;
 }
