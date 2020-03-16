@@ -23,7 +23,8 @@
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.1",
     "koa-router": "^8.0.7",
-    "koa-static": "^5.0.0"
+    "koa-static": "^5.0.0",
+    "superagent": "^5.2.2"
   },
   "devDependencies": {
     "jest": "^24.9.0",
