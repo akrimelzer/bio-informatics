@@ -11,7 +11,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon app.js",
     "test": "jest --watchAll",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "example": "cd client && npm install && npm run build",
+    "heroku-postbuild": "rm -rf ./build && react-scripts build && rm -rf ../build && mv ./build ..//build"
   },
   "keywords": [],
   "author": "",
