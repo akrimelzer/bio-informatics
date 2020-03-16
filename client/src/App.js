@@ -7,6 +7,7 @@ import { useApi } from "./hooks/api";
 
 function App() {
   const { getMatrixes } = useApi();
+  const [loading, setIsLoading] = useState(false);
   const [matrixes, setMatrixes] = useState([]);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ function App() {
       </h1>
 
       <div className={styles.inputWrapper}>
-        <form className={styles.inputForm}>
+        <form className={styles.inputForm} autoComplete="off">
           <label>
             <FontAwesomeIcon icon={faSearch} />
             <input
