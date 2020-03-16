@@ -54,11 +54,7 @@ app.use(jasparRouter.routes());
 app.use(jasparRouter.allowedMethods());
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(serve(__dirname + 'client/build/'));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html')); //  relative path
-  });
+  app.use(require('koa-static')('client/build/'));
 }
 
 // tells the server to listen to events on the 3000 port
