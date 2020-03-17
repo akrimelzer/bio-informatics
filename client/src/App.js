@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Dialog, Button, InputGroup } from '@blueprintjs/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Dialog, Button, InputGroup, Spinner } from '@blueprintjs/core';
 import SearchResults from './components/SearchResults';
 
 import styles from './App.module.css';
@@ -9,24 +7,26 @@ import styles from './App.module.css';
 import { useApi } from './hooks/api';
 
 function App() {
+  const [loading, setLoading] = useState(true);
   const { getMatrixes } = useApi();
   const [open, setOpen] = useState(false);
   const [protein, setProtein] = useState('');
-  const [loading, setIsLoading] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [matrixes, setMatrixes] = useState([]);
 
   useEffect(() => {
     getMatrixes().then((matrix) => {
-      setMatrixes(matrix);
+      setMatrixes(matrix.results);
+      setLoading(false);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const openModal = (protein) => {
     setProtein(protein);
     setOpen(true);
   };
-  return (
+  return !loading ? (
     <div id='app' className={styles.app}>
       <Dialog isOpen={open} style={{ alignItems: 'center' }}>
         <h1>{protein}</h1>
@@ -60,7 +60,16 @@ function App() {
           large='true'
           onChange={(e) => setSearchText(e.target.value)}></InputGroup>
       </div>
-      <SearchResults openModal={openModal} searchText={searchText} />
+      <SearchResults
+        openModal={openModal}
+        searchText={searchText}
+        matrixes={matrixes}
+        search={searchText}
+      />
+    </div>
+  ) : (
+    <div className={styles.spinner}>
+      <Spinner size='70' intent='primary' />
     </div>
   );
 }

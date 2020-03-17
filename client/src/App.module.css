@@ -18,6 +18,12 @@
 .inputForm {
 }
 
+.spinner {
+  position: fixed;
+  top: 40vh;
+  left: 45vw;
+}
+
 .input {
   width: 100%;
   height: 30px;

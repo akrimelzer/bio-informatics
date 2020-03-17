@@ -1,5 +1,3 @@
-import config from '../config';
-
 export const useApi = () => {
   //const basePath = config.apiUri;
 
