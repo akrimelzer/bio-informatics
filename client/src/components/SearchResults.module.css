@@ -1,3 +1,23 @@
 .element:hover {
   cursor: pointer;
 }
+
+.container {
+  display: grid;
+  grid-template-columns: minmax(30px, auto) 1fr 1fr 1fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+@media (max-width: 700px) {
+  .container {
+    display: grid;
+    grid-template-columns: 28% 28% 28%;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    justify-content: center;
+    margin-top: 30px;
+  }
+}
