@@ -1,35 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Card, Elevation } from '@blueprintjs/core';
+import React from 'react';
+import { Card } from '@blueprintjs/core';
 import { Colors } from '@blueprintjs/core';
 import styles from './SearchResults.module.css';
 
-import { useApi } from '../hooks/api';
-
 function SearchResults(props) {
-  const { getFilteredMatrixes } = useApi();
-  const [text, setText] = useState('');
-  const [results, setResults] = useState([]);
-
-  // TODO: Only search on enter? Veldig treig ellers
-
-  useEffect(() => {
-    getFilteredMatrixes(props.searchText).then((result) => {
-      setResults(result);
-      //setResults([{ id: "ARF27" }, { id: "ARF28" }, { id: "ARF29" }]);
-    });
-  }, [props.searchText]);
-
-  useEffect(() => {
-    setText(props.searchText);
-  }, []);
-
   const Result = (protein) => {
-    console.log('Result', protein);
     return (
-      <div
+      <Card
         onClick={() => props.openModal(protein.protein.name)}
         key={protein.matrix_id}
-        class='bp3-card bp3-elevation-0 bp3-interactive .modifier'
+        elevation='0'
+        interactive='true'
         style={{
           backgroundColor: Colors.BLUE3,
           color: 'white',
@@ -39,13 +20,16 @@ function SearchResults(props) {
           marginBottom: '5px'
         }}>
         {protein.protein.name}
-      </div>
+      </Card>
     );
   };
-
+  //  New array based on the search-text from input
+  let filteredMatrixes = props.matrixes.filter((protein) => {
+    return protein.name.indexOf(props.search) !== -1;
+  });
   return (
     <div className={styles.container}>
-      {results.map((result) => {
+      {filteredMatrixes.map((result) => {
         return <Result key={result.matrix_id} protein={result} />;
       })}
     </div>
