@@ -1,24 +1,24 @@
 import React from 'react';
-import { Button } from '@blueprintjs/core';
+import { Button, Card } from '@blueprintjs/core';
 import { Colors } from '@blueprintjs/core';
 import styles from './SearchResults.module.css';
 
 function SearchResults(props) {
   const Result = (protein) => {
     return (
-      <Button
+      <Card
         onClick={() => props.openModal(protein.protein.name)}
         key={protein.matrix_id}
-        intent='primary'
         large='true'
+        interactive='true'
         style={{
-          color: 'white',
           height: '30px',
           lineHeight: '5px',
-          marginBottom: '5px'
+          marginBottom: '5px',
+          color: 'grey'
         }}>
         {protein.protein.name}
-      </Button>
+      </Card>
     );
   };
   //  New array based on the search-text from input
