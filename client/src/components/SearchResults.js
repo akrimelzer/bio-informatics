@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from '@blueprintjs/core';
+import { Card, Elevation } from '@blueprintjs/core';
 
 import styles from './SearchResults.module.css';
 
@@ -9,14 +9,10 @@ function SearchResults(props) {
       <Card
         onClick={() => props.openModal(protein.protein)}
         key={protein.matrix_id}
+        elevation={Elevation.ONE}
         large='true'
-        interactive='true'
-        style={{
-          height: '30px',
-          lineHeight: '5px',
-          marginBottom: '5px',
-          color: 'grey'
-        }}>
+        interactive={true}
+        style={{ color: '#394B59' }}>
         {protein.protein.name}
       </Card>
     );
