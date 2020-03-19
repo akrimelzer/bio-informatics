@@ -1,0 +1,34 @@
+.wrapper {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.header {
+  margin: auto;
+  padding: 10vh 0 5vh 0;
+}
+
+.genomeWrapper {
+  flex-direction: column;
+  margin: auto;
+}
+.radioGroup {
+  padding: 0;
+}
+
+.textInput {
+  padding-top: 20px;
+  width: 500px;
+  margin: auto;
+}
+
+.protein {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+
+  margin-bottom: 20px;
+}

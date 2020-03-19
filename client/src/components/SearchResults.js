@@ -1,13 +1,13 @@
 import React from 'react';
-import { Button, Card } from '@blueprintjs/core';
-import { Colors } from '@blueprintjs/core';
+import { Card } from '@blueprintjs/core';
+
 import styles from './SearchResults.module.css';
 
 function SearchResults(props) {
   const Result = (protein) => {
     return (
       <Card
-        onClick={() => props.openModal(protein.protein.name)}
+        onClick={() => props.openModal(protein.protein)}
         key={protein.matrix_id}
         large='true'
         interactive='true'

@@ -1,12 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import HomeScreen from './pages/homescreen/HomeScreen';
 import CompareScreen from './pages/comparescreen/CompareScreen';
 import ResultScreen from './pages/resultscreen/ResultScreen';
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Switch>
         <Route exact path='/'>
           <HomeScreen />
@@ -18,7 +18,7 @@ function App() {
           <CompareScreen />
         </Route>
       </Switch>
-    </Router>
+    </BrowserRouter>
   );
 }
 

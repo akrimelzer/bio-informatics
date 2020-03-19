@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Dialog, Button, InputGroup, Spinner } from '@blueprintjs/core';
+import InfoDialog from '../../components/InfoModal';
+import {InputGroup, Spinner } from '@blueprintjs/core';
 import SearchResults from '../../components/SearchResults';
 
 import styles from './HomeScreen.module.css';
@@ -14,6 +15,7 @@ function HomeScreen() {
   const [searchText, setSearchText] = useState('');
   const [matrixes, setMatrixes] = useState([]);
 
+  //  passed data on redirect from genome-page back to homescreen
   useEffect(() => {
     getMatrixes().then((matrix) => {
       setMatrixes(matrix.results);
@@ -26,27 +28,13 @@ function HomeScreen() {
     setProtein(protein);
     setOpen(true);
   };
+
+  const closeModal = () => {
+    setOpen(false);
+  };
   return !loading ? (
     <div id='app' className={styles.app}>
-      <Dialog isOpen={open} style={{ alignItems: 'center' }}>
-        <h1>{protein}</h1>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row'
-          }}>
-          <Button
-            onClick={() => setOpen(false)}
-            intent='danger'
-            minimal='true'
-            icon='cross'>
-            Close
-          </Button>
-          <Button intent='success' minimal='true' icon='arrow-right'>
-            Continue
-          </Button>
-        </div>
-      </Dialog>
+      <InfoDialog isOpen={open} protein={protein} close={closeModal} />
       <h1 id='title' className={styles.title}>
         Mapping known transcription factor binding sites
       </h1>

@@ -1,0 +1,35 @@
+.dialog {
+  width: 700px;
+  height: 350px;
+}
+
+img {
+  margin-top: 20px;
+  height: 200px;
+  margin-left: 70px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+}
+
+.information {
+  margin-top: 30px;
+  flex-direction: column;
+  width: 200px;
+  word-wrap: break-word;
+}
+.informationWrapper {
+  display: flex;
+  flex-direction: row;
+  margin: 0px 5px 5px 20px;
+}
+.buttons {
+  margin-top: 15px;
+  margin-right: 7px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+
+.bold {
+  font-weight: 700;
+}
