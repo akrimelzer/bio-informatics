@@ -8,7 +8,7 @@
 
 .header {
   margin: auto;
-  padding: 10vh 0 5vh 0;
+  padding: 7vh 0 1vh 0;
 }
 
 .genomeWrapper {
@@ -31,4 +31,9 @@
   justify-content: center;
 
   margin-bottom: 20px;
+}
+
+.buttons {
+  justify-content: space-between;
+  display: flex;
 }
