@@ -5,8 +5,10 @@ import { Button } from "@blueprintjs/core";
 
 function ResultScreen() {
   const data = useLocation();
+  const protein = data.protein;
+  const genome = data.genome;
 
-  console.log(data);
+  const isValid = protein !== undefined && genome !== undefined;
 
   const homeButton = (
     <div className={styles.homeButton}>
@@ -26,6 +28,16 @@ function ResultScreen() {
     <div>
       {homeButton}
       <h1>Result</h1>
+      <p>
+        {isValid &&
+          "The result of " +
+            protein.protein.name +
+            " and genome " +
+            genome +
+            ":"}
+        {!isValid &&
+          "Not valid, protein or genome is undefined. Start over by pressing the Home-button."}
+      </p>
     </div>
   );
 }

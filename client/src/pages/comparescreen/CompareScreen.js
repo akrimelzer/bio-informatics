@@ -103,7 +103,7 @@ function CompareScreen() {
               to={{
                 pathname: "/results",
                 protein: { protein },
-                chromosome: { selected }
+                genome: selected
               }}
             >
               <Button
