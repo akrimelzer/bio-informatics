@@ -66,7 +66,8 @@ module.exports = ({ jasparRouter }) => {
   });
 
   jasparRouter.post("/matrix/:matrix_id/PPM/:nums?", async (ctx, next) => {
-    let DNASequence = ctx.body.dna;
+    console.log(ctx.request.body)
+    let DNASequence = ctx.request.body.dna;
     await request
       .get(baseURL + "/matrix/" + ctx.params.matrix_id)
       .then(res => {
