@@ -8,7 +8,7 @@
     "client-install": "npm install --prefix client",
     "client": "npm start --prefix client",
     "install-all": "npm install && npm run client-install",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"nodemon server.js\" \"npm run client\"",
     "server": "nodemon server.js",
     "test": "jest --watchAll",
     "heroku-postbuild": "cd client && npm install && npm run build"

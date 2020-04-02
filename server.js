@@ -19,25 +19,11 @@ app.use(bodyParser());
 
 // instantiate our new Router
 const jasparRouter = new Router();
-const dogRouter = new Router({
-  prefix: '/dogs'
-});
-const collectionsRouter = new Router({
-  prefix: '/collections'
-});
 
 // require our external routes and pass in the router
-require('./routes/dogs.js')({ dogRouter });
-require('./routes/collections.js')({ collectionsRouter });
 require('./routes/jaspar.js')({ jasparRouter });
 
 // tells the router to use all the routes that are on the object
-app.use(dogRouter.routes());
-app.use(dogRouter.allowedMethods());
-
-app.use(collectionsRouter.routes());
-app.use(collectionsRouter.allowedMethods());
-
 app.use(jasparRouter.routes());
 app.use(jasparRouter.allowedMethods());
 
