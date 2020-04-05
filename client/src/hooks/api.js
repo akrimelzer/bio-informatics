@@ -4,14 +4,14 @@ export const useApi = () => {
   const getHeaders = () => {
     return {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
   };
 
   const getApiData = async (path) => {
     return fetch(path, {
       method: 'GET',
-      headers: getHeaders()
+      headers: getHeaders(),
     })
       .then((response) => {
         if (!response.ok) {
@@ -27,22 +27,12 @@ export const useApi = () => {
     return getApiData(path);
   };
 
-  const getFilteredMatrixes = async (text) => {
-    console.log('Searching for', text);
-    const matrixes = await getMatrixes();
-    if (text === '') {
-      return matrixes.results;
-    } else {
-      const result = matrixes.results.filter((element) =>
-        element.name.toLowerCase().startsWith(text.toLowerCase())
-      );
-      console.log('result', result);
-      return result.slice(0, 50);
-    }
+  const getResults = async (path) => {
+    return getApiData(path);
   };
 
   return {
     getMatrixes,
-    getFilteredMatrixes
+    getResults,
   };
 };

@@ -1,0 +1,32 @@
+.result {
+  margin: 20px;
+}
+.resultContainer {
+  display: flex;
+  margin: auto;
+  flex-direction: row;
+  width: 80vw;
+  min-height: 400px;
+}
+.chart {
+  display: block;
+  text-align: center;
+  padding-left: 10vw;
+  width: 55vw;
+  height: 55vh;
+}
+
+.spinner {
+  position: fixed;
+  top: 40vh;
+  left: 47vw;
+}
+
+h4 p {
+  color: #ccc;
+  padding: 0;
+  margin: 0;
+}
+h1 {
+  color: #333;
+}
