@@ -13,32 +13,7 @@ function ResultScreen() {
   const genome = data.genome;
   const dna = data.dna.text;
   const isValid = protein !== undefined && genome !== undefined;
-  const chartData = [
-    {
-      label: 'Series 1',
-      data: [
-        [0, 1],
-        [1, 2],
-        [2, 4],
-        [3, 2],
-        [4, 7],
-      ],
-    },
-    {
-      label: 'Series 2',
-      data: [
-        [0, 3],
-        [1, 1],
-        [2, 5],
-        [3, 6],
-        [4, 4],
-      ],
-    },
-  ];
-  const axes = [
-    { primary: true, type: 'linear', position: 'bottom' },
-    { type: 'linear', position: 'left' },
-  ];
+  console.log(results.chart_arr);
 
   console.log('results is:', results);
 
@@ -61,6 +36,16 @@ function ResultScreen() {
     resultsData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const chartData = [
+    {
+      label: 'Series 1',
+      data: results.chart_arr,
+    },
+  ];
+  const axes = [
+    { primary: true, type: 'linear', position: 'bottom' },
+    { type: 'linear', position: 'left' },
+  ];
 
   const homeButton = (
     <div className={styles.homeButton}>
@@ -109,6 +94,7 @@ function ResultScreen() {
   ) : (
     <div className={styles.spinner}>
       <Spinner size='70' intent='primary' />
+      <h1>May take some time...</h1>
     </div>
   );
 }
