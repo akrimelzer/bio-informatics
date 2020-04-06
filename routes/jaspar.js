@@ -91,7 +91,7 @@ module.exports = ({ jasparRouter }) => {
             //chart_arr.push([index + 1, 0]);
             return [key, probabilities[key].value, probabilities[key].position];
           }
-          chart_arr.push([index + 1, probabilities[key].value]);
+          chart_arr.push([index, probabilities[key].value]);
           return [key, probabilities[key].value, probabilities[key].position];
         });
         // Sort the array based on the second element
