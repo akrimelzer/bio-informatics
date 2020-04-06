@@ -20,6 +20,7 @@
   position: fixed;
   top: 40vh;
   left: 47vw;
+  transform: translate(-50%, -50%);
 }
 
 h4 p {

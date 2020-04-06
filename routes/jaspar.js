@@ -86,8 +86,8 @@ module.exports = ({ jasparRouter }) => {
         // Create items array
         chart_arr = [];
 
-        var items = Object.keys(probabilities).map(function (key) {
-          chart_arr.push(probabilities[key].value);
+        var items = Object.keys(probabilities).map(function (key, index) {
+          chart_arr.push([index + 1, probabilities[key].value]);
           return [key, probabilities[key].value, probabilities[key].position];
         });
         // Sort the array based on the second element
