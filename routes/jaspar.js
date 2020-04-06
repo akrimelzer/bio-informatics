@@ -87,6 +87,10 @@ module.exports = ({ jasparRouter }) => {
         chart_arr = [];
 
         var items = Object.keys(probabilities).map(function (key, index) {
+          if (probabilities[key].value < 0.000000000001) {
+            //chart_arr.push([index + 1, 0]);
+            return [key, probabilities[key].value, probabilities[key].position];
+          }
           chart_arr.push([index + 1, probabilities[key].value]);
           return [key, probabilities[key].value, probabilities[key].position];
         });

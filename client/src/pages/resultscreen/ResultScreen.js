@@ -13,6 +13,9 @@ function ResultScreen() {
   const genome = data.genome;
   const dna = data.dna.text;
   const isValid = protein !== undefined && genome !== undefined;
+  const instance = axios.create({
+    baseURL: 'http://localhost:8080',
+  });
   console.log(results.chart_arr);
 
   console.log('results is:', results);
@@ -20,13 +23,10 @@ function ResultScreen() {
   useEffect(() => {
     //  Fetch probabilties
     const resultsData = async () => {
-      await axios
-        .post(
-          `http://localhost:8080/matrix/${protein.protein.matrix_id}/PPM/5`,
-          {
-            dna: dna,
-          }
-        )
+      await instance
+        .post(`/matrix/${protein.protein.matrix_id}/PPM/5`, {
+          dna: dna,
+        })
         .then(function (response) {
           setResults(response.data);
           setIsLoading(false);
@@ -38,7 +38,7 @@ function ResultScreen() {
   }, []);
   const chartData = [
     {
-      label: 'Series 1',
+      label: 'Probability',
       data: results.chart_arr,
     },
   ];
@@ -86,8 +86,8 @@ function ResultScreen() {
           ))}
         </div>
         <div className={styles.chart}>
-          <h1>Probabilities</h1>
-          <Chart data={chartData} axes={axes} />
+          <h1>Probabilities > 0.000000000001</h1>
+          <Chart data={chartData} axes={axes} tooltip />
         </div>
       </Card>
     </div>
