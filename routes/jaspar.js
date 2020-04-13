@@ -91,7 +91,7 @@ module.exports = ({ jasparRouter }) => {
             //chart_arr.push([index + 1, 0]);
             return [key, probabilities[key].value, probabilities[key].position];
           }
-          chart_arr.push([index, probabilities[key].value]);
+          chart_arr.push([probabilities[key].position, probabilities[key].value]);
           return [key, probabilities[key].value, probabilities[key].position];
         });
         // Sort the array based on the second element
@@ -99,6 +99,9 @@ module.exports = ({ jasparRouter }) => {
           return second[1] - first[1];
         });
 
+        chart_arr.sort(function (first, second) {
+          return first[0] - second[0];
+        });
         // make a return dictionary of 100 highest probabilities with transcription factor site
         if (ctx.params.nums) {
           amount_returned = ctx.params.nums;
