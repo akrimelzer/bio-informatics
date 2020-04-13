@@ -102,7 +102,6 @@ module.exports = ({ jasparRouter }) => {
         chart_arr.sort(function (first, second) {
           return first[0] - second[0];
         });
-        console.log(chart_arr)
         // make a return dictionary of 100 highest probabilities with transcription factor site
         if (ctx.params.nums) {
           amount_returned = ctx.params.nums;
