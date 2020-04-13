@@ -1,13 +1,13 @@
 // using the superagent http request library
-const request = require('superagent');
+const request = require("superagent");
 
-const baseURL = 'http://jaspar.genereg.net/api/v1';
+const baseURL = "http://jaspar.genereg.net/api/v1";
 
 module.exports = ({ jasparRouter }) => {
   // getting the collections route
-  jasparRouter.get('/collections', async (ctx, next) => {
+  jasparRouter.get("/collections", async (ctx, next) => {
     await request
-      .get(baseURL + '/collections/')
+      .get(baseURL + "/collections/")
       .then((res) => {
         ctx.body = res.body;
       })
@@ -17,9 +17,9 @@ module.exports = ({ jasparRouter }) => {
   });
 
   // specific Collection on name
-  jasparRouter.get('/collections/:collection', async (ctx, next) => {
+  jasparRouter.get("/collections/:collection", async (ctx, next) => {
     await request
-      .get(baseURL + '/collections/' + ctx.params.collection)
+      .get(baseURL + "/collections/" + ctx.params.collection)
       .then((res) => {
         ctx.body = res.body;
       })
@@ -29,9 +29,9 @@ module.exports = ({ jasparRouter }) => {
   });
 
   // infer matrix profiles, given protein sequence
-  jasparRouter.get('/infer/:sequence', async (ctx, next) => {
+  jasparRouter.get("/infer/:sequence", async (ctx, next) => {
     await request
-      .get(baseURL + '/infer/' + ctx.params.sequence)
+      .get(baseURL + "/infer/" + ctx.params.sequence)
       .then((res) => {
         ctx.body = res.body;
       })
@@ -42,9 +42,9 @@ module.exports = ({ jasparRouter }) => {
 
   // return all matrix profiles
   // adding ?page_size=3150 to set number of results to page
-  jasparRouter.get('/matrix', async (ctx, next) => {
+  jasparRouter.get("/matrix", async (ctx, next) => {
     await request
-      .get(baseURL + '/matrix/?page_size=3150')
+      .get(baseURL + "/matrix/?page_size=3150")
       .then((res) => {
         ctx.body = res.body;
       })
@@ -54,9 +54,9 @@ module.exports = ({ jasparRouter }) => {
   });
 
   // return specific matrix profile
-  jasparRouter.get('/matrix/:matrix_id', async (ctx, next) => {
+  jasparRouter.get("/matrix/:matrix_id", async (ctx, next) => {
     await request
-      .get(baseURL + '/matrix/' + ctx.params.matrix_id)
+      .get(baseURL + "/matrix/" + ctx.params.matrix_id)
       .then((res) => {
         ctx.body = res.body;
       })
@@ -65,13 +65,13 @@ module.exports = ({ jasparRouter }) => {
       });
   });
 
-  jasparRouter.post('/matrix/:matrix_id/PPM/:nums?', async (ctx, next) => {
+  jasparRouter.post("/matrix/:matrix_id/PPM/:nums?", async (ctx, next) => {
     let DNASequence = ctx.request.body.dna;
     await request
-      .get(baseURL + '/matrix/' + ctx.params.matrix_id)
+      .get(baseURL + "/matrix/" + ctx.params.matrix_id)
       .then((res) => {
         PPM = convToPPM(res.body.pfm);
-        ctx.body = 'Something went wrong. Sorry about that.';
+        ctx.body = "Something went wrong. Sorry about that.";
         splitted_chromosome = [];
         let string_length = PPM.A.length - 1;
         let test_chromosomes = DNASequence.toString();
@@ -116,7 +116,7 @@ module.exports = ({ jasparRouter }) => {
         // return top 100 items
         ctx.body = { top_x: returnDict, chart_arr: chart_arr };
 
-        console.log('returned filtered probabilities');
+        console.log("returned filtered probabilities");
       })
       .catch((err) => {
         console.log(err);
@@ -125,15 +125,15 @@ module.exports = ({ jasparRouter }) => {
 
   // return PPM of a specific matrix
   const get_PPM = jasparRouter.get(
-    '/matrix/:matrix_id/PPM/:nums?',
+    "/matrix/:matrix_id/PPM/:nums?",
     async (ctx, next) => {
-      console.log('Accessing Get request');
+      console.log("Accessing Get request");
       await request
-        .get(baseURL + '/matrix/' + ctx.params.matrix_id)
+        .get(baseURL + "/matrix/" + ctx.params.matrix_id)
         .then((res) => {
           let amount_returned = 100;
           PPM = convToPPM(res.body.pfm);
-          ctx.body = 'Something went wrong. Sorry about that.';
+          ctx.body = "Something went wrong. Sorry about that.";
           splitted_chromosome = [];
           let string_length = PPM.A.length - 1;
           let test_chromosomes = chromosome_1;
@@ -193,15 +193,15 @@ module.exports = ({ jasparRouter }) => {
     for (let i = 0; i < A.length; i++) {
       let total_amount = A[i] + C[i] + T[i] + G[i];
       // Pseudocount Xi +1 / N + 1 * 0.25
-      PPM['A'].push((A[i] + 1) / (total_amount + 0.25));
-      PPM['C'].push((C[i] + 1) / (total_amount + 0.25));
-      PPM['T'].push((T[i] + 1) / (total_amount + 0.25));
-      PPM['G'].push((G[i] + 1) / (total_amount + 0.25));
+      PPM["A"].push((A[i] + 1) / (total_amount + 0.25));
+      PPM["C"].push((C[i] + 1) / (total_amount + 0.25));
+      PPM["T"].push((T[i] + 1) / (total_amount + 0.25));
+      PPM["G"].push((G[i] + 1) / (total_amount + 0.25));
     }
     return PPM;
   };
   const getChromosomeSlices = (chromosome, string_length) => {
-    chromosome = chromosome.replace(/(\r\n|\n|\r)/gm, '');
+    chromosome = chromosome.replace(/(\r\n|\n|\r)/gm, "");
     for (let i = 0; i < chromosome.length - string_length; i++) {
       let chromosome_slice = chromosome.slice(i, i + string_length);
       if (
@@ -235,9 +235,9 @@ module.exports = ({ jasparRouter }) => {
     return probability;
   };
   // return all species
-  jasparRouter.get('/species', async (ctx, next) => {
+  jasparRouter.get("/species", async (ctx, next) => {
     await request
-      .get(baseURL + '/species/')
+      .get(baseURL + "/species/")
       .then((res) => {
         ctx.body = res.body;
       })
@@ -247,9 +247,9 @@ module.exports = ({ jasparRouter }) => {
   });
 
   // return specific species profile
-  jasparRouter.get('/species/:tax_id', async (ctx, next) => {
+  jasparRouter.get("/species/:tax_id", async (ctx, next) => {
     await request
-      .get(baseURL + '/species/' + ctx.params.tax_id)
+      .get(baseURL + "/species/" + ctx.params.tax_id)
       .then((res) => {
         ctx.body = res.body;
       })
@@ -259,9 +259,9 @@ module.exports = ({ jasparRouter }) => {
   });
 
   // return all taxon
-  jasparRouter.get('/taxon', async (ctx, next) => {
+  jasparRouter.get("/taxon", async (ctx, next) => {
     await request
-      .get(baseURL + '/taxon/')
+      .get(baseURL + "/taxon/")
       .then((res) => {
         ctx.body = res.body;
       })
@@ -271,9 +271,9 @@ module.exports = ({ jasparRouter }) => {
   });
 
   // return specific matrix profile
-  jasparRouter.get('/taxon/:tax_group', async (ctx, next) => {
+  jasparRouter.get("/taxon/:tax_group", async (ctx, next) => {
     await request
-      .get(baseURL + '/taxon/' + ctx.params.tax_group)
+      .get(baseURL + "/taxon/" + ctx.params.tax_group)
       .then((res) => {
         ctx.body = res.body;
       })
@@ -283,9 +283,9 @@ module.exports = ({ jasparRouter }) => {
   });
 
   // return all transcription factor flexible models
-  jasparRouter.get('/tffm/', async (ctx, next) => {
+  jasparRouter.get("/tffm/", async (ctx, next) => {
     await request
-      .get(baseURL + '/tffm/')
+      .get(baseURL + "/tffm/")
       .then((res) => {
         ctx.body = res.body;
       })
@@ -295,9 +295,9 @@ module.exports = ({ jasparRouter }) => {
   });
 
   // return specific transcription factor flexible model
-  jasparRouter.get('/tffm/:tffm_id/', async (ctx, next) => {
+  jasparRouter.get("/tffm/:tffm_id/", async (ctx, next) => {
     await request
-      .get(baseURL + '/tffm/' + ctx.params.tffm_id)
+      .get(baseURL + "/tffm/" + ctx.params.tffm_id)
       .then((res) => {
         ctx.body = res.body;
       })

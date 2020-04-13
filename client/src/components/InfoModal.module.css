@@ -17,13 +17,22 @@ img {
   width: 200px;
   word-wrap: break-word;
 }
+
 .informationWrapper {
   display: flex;
   flex-direction: row;
   margin: 0px 5px 5px 20px;
 }
+
+.continueText {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  margin: 5px 5px 5px 0px;
+}
+
 .buttons {
-  margin-top: 15px;
+  margin-top: 0px;
   margin-right: 7px;
   display: flex;
   justify-content: flex-end;
