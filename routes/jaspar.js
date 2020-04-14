@@ -138,7 +138,6 @@ module.exports = ({ jasparRouter }) => {
       };
       returnDict.push(returnDictItem);
     }
-    console.log(chart_arr)
     return [chart_arr, returnDict]
   }
 
