@@ -109,15 +109,23 @@ module.exports = ({ jasparRouter }) => {
   });
 
   const extract_top_x = (probabilities, amount_returned) => {
-    chart_arr = [];
+    chart_arr = [[
+      0,
+      0.0
+    ]];
+
     var items = Object.keys(probabilities).map(function (key, index) {
-      if (probabilities[key].value < 0.0000000000001) {
+      if(probabilities[key].position == 1){
+        console.log("HELLO")
+      }
+      if ((probabilities[key].value < 0.00001 && probabilities[key].position != 1 )) {
         return [key, probabilities[key].value, probabilities[key].position];
       }
       chart_arr.push([probabilities[key].position, probabilities[key].value]);
       return [key, probabilities[key].value, probabilities[key].position];
     });
-
+  
+    chart_arr.push([Object.keys(probabilities).length, 0.0])
     // Sort the array based on the second element
     items.sort(function (first, second) {
       return second[1] - first[1];
