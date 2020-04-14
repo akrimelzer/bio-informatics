@@ -118,7 +118,7 @@ module.exports = ({ jasparRouter }) => {
       if(probabilities[key].position == 1){
         console.log("HELLO")
       }
-      if ((probabilities[key].value < 0.0000000000001 && probabilities[key].position != 1 )) {
+      if ((probabilities[key].value < 0.00001 && probabilities[key].position != 1 )) {
         return [key, probabilities[key].value, probabilities[key].position];
       }
       chart_arr.push([probabilities[key].position, probabilities[key].value]);
