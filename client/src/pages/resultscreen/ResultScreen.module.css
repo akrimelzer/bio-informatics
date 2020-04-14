@@ -5,14 +5,16 @@
   display: flex;
   margin: auto;
   flex-direction: row;
-  width: 80vw;
+  width: 85vw;
+  height: 80vh;
   min-height: 400px;
 }
 .chart {
   display: block;
   text-align: center;
   padding-left: 10vw;
-  width: 55vw;
+  width: 800px;
+  min-height: 400px;
   height: 55vh;
 }
 
@@ -20,7 +22,7 @@
   position: fixed;
   top: 40vh;
   left: 47vw;
-  transform: translate(-50%, -50%);
+  transform: translate(-25%, -25%);
 }
 
 h4 p {

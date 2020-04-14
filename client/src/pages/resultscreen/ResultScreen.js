@@ -38,7 +38,7 @@ function ResultScreen() {
   ];
   const chartData_PWM = [
     {
-      label: 'Probability',
+      label: 'Score',
       data: results.chart_arr_PWM,
     },
   ];
