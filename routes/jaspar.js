@@ -71,6 +71,7 @@ module.exports = ({ jasparRouter }) => {
       .get(baseURL + "/matrix/" + ctx.params.matrix_id)
       .then((res) => {
         PPM = convToPPM(res.body.pfm);
+        PWM = convToPWM(PPM)
         ctx.body = "Something went wrong. Sorry about that.";
         splitted_chromosome = [];
         let string_length = PPM.A.length - 1;
@@ -80,44 +81,25 @@ module.exports = ({ jasparRouter }) => {
           string_length
         );
         let amount_returned = chromosome_slices.length;
-
-        let probabilities = getProbabilityKeyValuePair(chromosome_slices, PPM);
-
-        // Create items array
-        chart_arr = [];
-
-        var items = Object.keys(probabilities).map(function (key, index) {
-          if (probabilities[key].value < 0.0000000000001) {
-            //chart_arr.push([index + 1, 0]);
-            return [key, probabilities[key].value, probabilities[key].position];
-          }
-          chart_arr.push([probabilities[key].position, probabilities[key].value]);
-          return [key, probabilities[key].value, probabilities[key].position];
-        });
-        // Sort the array based on the second element
-        items.sort(function (first, second) {
-          return second[1] - first[1];
-        });
-
-        chart_arr.sort(function (first, second) {
-          return first[0] - second[0];
-        });
-        // make a return dictionary of 100 highest probabilities with transcription factor site
         if (ctx.params.nums) {
           amount_returned = ctx.params.nums;
         }
-        let returnDict = [];
-        for (let i = 0; i < amount_returned; i++) {
-          returnDictItem = {
-            id: i,
-            name: items[i][0],
-            position: items[i][2],
-            value: items[i][1],
-          };
-          returnDict.push(returnDictItem);
-        }
+
+        let probabilities_PPM = getProbabilityKeyValuePair(chromosome_slices, PPM, "PPM");
+        let probabilities_PWM = getProbabilityKeyValuePair(chromosome_slices, PWM, "PWM");
+        
+        const [chart_arr_PPM, returnDict_PPM] = extract_top_x(probabilities_PPM, amount_returned);
+        const [chart_arr_PWM, returnDict_PWM] = extract_top_x(probabilities_PWM, amount_returned);
+
+
+        
         // return top 100 items
-        ctx.body = { top_x: returnDict, chart_arr: chart_arr };
+        ctx.body = { 
+          top_x_PPM: returnDict_PPM, 
+          chart_arr_PPM: chart_arr_PPM,
+          top_x_PWM: returnDict_PWM, 
+          chart_arr_PWM: chart_arr_PWM,
+        };
 
         console.log("returned filtered probabilities");
       })
@@ -126,58 +108,39 @@ module.exports = ({ jasparRouter }) => {
       });
   });
 
-  // return PPM of a specific matrix
-  const get_PPM = jasparRouter.get(
-    "/matrix/:matrix_id/PPM/:nums?",
-    async (ctx, next) => {
-      console.log("Accessing Get request");
-      await request
-        .get(baseURL + "/matrix/" + ctx.params.matrix_id)
-        .then((res) => {
-          let amount_returned = 100;
-          PPM = convToPPM(res.body.pfm);
-          ctx.body = "Something went wrong. Sorry about that.";
-          splitted_chromosome = [];
-          let string_length = PPM.A.length - 1;
-          let test_chromosomes = chromosome_1;
-          let chromosome_slices = getChromosomeSlices(
-            test_chromosomes,
-            string_length
-          );
+  const extract_top_x = (probabilities, amount_returned) => {
+    chart_arr = [];
+    var items = Object.keys(probabilities).map(function (key, index) {
+      if (probabilities[key].value < 0.0000000000001) {
+        return [key, probabilities[key].value, probabilities[key].position];
+      }
+      chart_arr.push([probabilities[key].position, probabilities[key].value]);
+      return [key, probabilities[key].value, probabilities[key].position];
+    });
 
-          let probabilities = getProbabilityKeyValuePair(
-            chromosome_slices,
-            PPM
-          );
-          // Create items array
-          var items = Object.keys(probabilities).map(function (key) {
-            return [key, probabilities[key].value, probabilities[key].position];
-          });
+    // Sort the array based on the second element
+    items.sort(function (first, second) {
+      return second[1] - first[1];
+    });
 
-          // Sort the array based on the second element
-          items.sort(function (first, second) {
-            return second[1] - first[1];
-          });
+    chart_arr.sort(function (first, second) {
+      return first[0] - second[0];
+    });
+    // make a return dictionary of 100 highest probabilities with transcription factor site
 
-          // make a return dictionary of 100 highest probabilities with transcription factor site
-          if (ctx.params.nums) {
-            amount_returned = ctx.params.nums;
-          }
-          let returnDict = {};
-          for (let i = 0; i < amount_returned; i++) {
-            returnDict[items[i][0]] = {
-              position: items[i][2],
-              value: items[i][1],
-            };
-          }
-          // return top 100 items
-          ctx.body = returnDict;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    let returnDict = [];
+    for (let i = 0; i < amount_returned; i++) {
+      returnDictItem = {
+        id: i,
+        name: items[i][0],
+        position: items[i][2],
+        value: items[i][1],
+      };
+      returnDict.push(returnDictItem);
     }
-  );
+    return [chart_arr, returnDict]
+  }
+
 
   const convToPPM = (matrix) => {
     // initialize PPM
@@ -203,6 +166,31 @@ module.exports = ({ jasparRouter }) => {
     }
     return PPM;
   };
+
+const convToPWM = (matrix) => {
+  // initialize PPM
+  let PWM = {
+    A: [],
+    C: [],
+    T: [],
+    G: [],
+  };
+  // PFM
+  A = matrix.A;
+  C = matrix.C;
+  T = matrix.T;
+  G = matrix.G;
+  // iterate through all values and normalize
+  for (let i = 0; i < A.length; i++) {  
+    //  M_(k,j) = log_2(M_(k,j) / b_k), where b_k = 1/|k| and k = range of alphabet. 
+    PWM["A"].push(Math.log2(A[i] / 0.25));
+    PWM["C"].push(Math.log2(C[i] / 0.25));
+    PWM["T"].push(Math.log2(T[i] / 0.25));
+    PWM["G"].push(Math.log2(G[i] / 0.25));
+  }
+  return PWM;
+}
+
   const getChromosomeSlices = (chromosome, string_length) => {
     chromosome = chromosome.replace(/(\r\n|\n|\r)/gm, "");
     for (let i = 0; i < chromosome.length - string_length; i++) {
@@ -217,26 +205,27 @@ module.exports = ({ jasparRouter }) => {
     return splitted_chromosome;
   };
 
-  const getProbabilityKeyValuePair = (splitted_chromosome, PPM) => {
+  const getProbabilityKeyValuePair = (splitted_chromosome, matrix, method) => {
     probabilities = [];
     for (let i = 0; i < splitted_chromosome.length; i++) {
       let current_chromosome = splitted_chromosome[i];
       probabilities[current_chromosome] = {
         position: i,
-        value: getProbability(PPM, current_chromosome),
+        value: getProbability(matrix, current_chromosome, method),
       };
     }
     return probabilities;
   };
 
-  const getProbability = (matrix, current_chromosome) => {
+  const getProbability = (matrix, current_chromosome, method) => {
     let probability = 1;
     for (let i = 0; i < current_chromosome.length - 1; i++) {
       let current_letter = current_chromosome[i];
-      probability = probability * matrix[current_letter][i];
+      probability = ( method === "PPM") ? probability * matrix[current_letter][i] : probability = probability + matrix[current_letter][i];
     }
     return probability;
   };
+
   // return all species
   jasparRouter.get("/species", async (ctx, next) => {
     await request
