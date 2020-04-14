@@ -107,10 +107,10 @@ function ResultScreen() {
           ))}
         </div>
         <div className={styles.chart}>
-          <h1>Probabilities</h1>
+          <h1>Score</h1>
           <div className={styles.infotext}>
             <p>X-axis: Positions in the genome</p>
-            <p>Y-axis: Probability for binding in the current position</p>
+            <p>Y-axis: Score for binding in the current position</p>
           </div>
 
           <Chart data={chartData_PWM} axes={axes} tooltip />
