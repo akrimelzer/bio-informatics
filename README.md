@@ -1,4 +1,4 @@
-# Mapping TFBS
+# Mapping known transcription factor binding sites
 
 Application for mapping transcription factor binding sites.
 
